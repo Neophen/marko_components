@@ -1,3 +1,2 @@
-import "./style.css";
-
-import "./menu"
+import './style.css'
+import './menu'

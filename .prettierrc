@@ -1,0 +1,9 @@
+{
+  "printWidth": 120,
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindAttributes": ["with", "hide", "show", "enter", "enter-from", "enter-to", "leave", "leave-from", "leave-to"]
+}

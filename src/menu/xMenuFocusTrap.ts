@@ -1,84 +1,72 @@
-import { XMenuChild } from "./XMenuChild";
+import { XMenuChild } from './xMenuChild'
 
-const MAX_TRIES = 10;
+const MAX_TRIES = 10
 
 export class XMenuFocusTrap extends XMenuChild {
-	previousActiveElement: HTMLElement | null = null;
-  tries = 0;
+  previousActiveElement: HTMLElement | null = null
+  tries = 0
 
-	onOpenChange(open: boolean): void {
-		super.onOpenChange(open);
-		if (open) {
-			// capture current focus
-			this.previousActiveElement = document.activeElement as HTMLElement;
-			this.focusFirstElement();
-			// trap focus
-			this.addEventListener("keydown", this.onKeyDown);
-		} else {
-			// release focus
-			this.previousActiveElement?.focus?.();
-			this.removeEventListener("keydown", this.onKeyDown);
-		}
-	}
+  onOpenChange(open: boolean): void {
+    super.onOpenChange(open)
+    if (open) {
+      // capture current focus
+      this.previousActiveElement = document.activeElement as HTMLElement
+      this.focusFirstElement()
+      // trap focus
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      this.addEventListener('keydown', this.onKeyDown)
+    } else {
+      // release focus
+      this.previousActiveElement?.focus?.()
+      // eslint-disable-next-line @typescript-eslint/unbound-method
+      this.removeEventListener('keydown', this.onKeyDown)
+    }
+  }
 
-	onKeyDown(event: KeyboardEvent): void {
-		if (event.key === "ArrowDown" || (event.key === "Tab" && !event.shiftKey)) {
-			event.preventDefault();
-			this.focusNextElement();
-		}
+  onKeyDown(event: KeyboardEvent): void {
+    const focusableEls = this.getFocusableElements()
+    const firstFocusableEl = focusableEls[0] as HTMLElement
+    const lastFocusableEl = focusableEls[focusableEls.length - 1] as HTMLElement
 
-		if (event.key === "ArrowUp" || (event.key === "Tab" && event.shiftKey)) {
-			event.preventDefault();
-			this.focusPreviousElement();
-		}
+    if (document.activeElement === lastFocusableEl && event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault()
+      firstFocusableEl.focus()
+      return
+    }
 
-		if (event.key === "Escape") {
-			this.dispatchEvent(this.xMenu.createEvent({ action: "close" }));
-		}
-	}
+    if (document.activeElement === firstFocusableEl && event.key === 'Tab' && event.shiftKey) {
+      event.preventDefault()
+      lastFocusableEl.focus()
+      return
+    }
 
-	focusFirstElement(): void {
-		const focusableElements = this.getFocusableElements();
-		if (focusableElements.length > 0) {
-			focusableElements[0].focus();
-			return;
-		}
+    if (event.key === 'Escape') {
+      this.dispatchEvent(this.xMenu.createEvent({ action: 'close' }))
+    }
+  }
 
-		if (this.tries < MAX_TRIES) {
-			requestAnimationFrame(() => {
-				this.focusFirstElement();
-			});
-			return;
-		}
+  focusFirstElement(): void {
+    const firstElement = this.getFocusableElements()[0]
+    if (firstElement instanceof HTMLElement) {
+      this.tries = 0
+      firstElement.focus()
+      return
+    }
 
-		console.warn("No focusable elements found in <x-menu-content-focus-trap>.");
-	}
+    if (this.tries < MAX_TRIES) {
+      this.tries++
+      requestAnimationFrame(() => {
+        this.focusFirstElement()
+      })
+      return
+    }
 
-	getFocusableElements(): HTMLElement[] {
-		return Array.from(
-			this.querySelectorAll(
-				"button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
-			)
-		);
-	}
+    console.warn('No focusable elements found in <x-menu-content-focus-trap>.')
+  }
 
-	focusNextElement(): void {
-		const focusableElements = this.getFocusableElements();
-		const activeElement = document.activeElement as HTMLElement;
-		const activeElementIndex = focusableElements.indexOf(activeElement);
-		const lastElementIndex = focusableElements.length - 1;
-		const nextElementIndex = activeElementIndex + 1;
-		const index = nextElementIndex > lastElementIndex ? 0 : nextElementIndex;
-		focusableElements[index]?.focus?.();
-	}
-
-	focusPreviousElement(): void {
-		const focusableElements = this.getFocusableElements();
-		const activeElement = document.activeElement as HTMLElement;
-		const activeElementIndex = focusableElements.indexOf(activeElement);
-		const lastElementIndex = focusableElements.length - 1;
-		const nextElementIndex = activeElementIndex - 1;
-		const index = nextElementIndex < 0 ? lastElementIndex : nextElementIndex;
-		focusableElements[index]?.focus?.();
-	}
+  getFocusableElements() {
+    return this.querySelectorAll(
+      'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    )
+  }
 }

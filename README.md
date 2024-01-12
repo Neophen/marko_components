@@ -3,6 +3,10 @@
 A simple web component for creating menus
 Use at your own risk
 
+Note that the design is responsive, also try keyboard navigation
+
+Here's a demo [**Demo**](https://menu.themykolas.com/)
+
 ```html
 <x-menu class="relative isolate z-20">
   <x-menu-trigger class="shrink-0 grow-0">

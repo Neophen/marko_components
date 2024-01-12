@@ -2,12 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/the_mykolas.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Auth Menu</title>
+    <title>X Menu</title>
   </head>
   <body>
-    <div class="grid h-screen place-items-center bg-teal-100">
+    <div class="grid h-screen place-items-center bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
       <x-menu class="relative isolate z-20">
         <x-menu-trigger class="group shrink-0 grow-0">
           <div class="hidden sm:block">
@@ -84,7 +84,12 @@
                 <button class="hocus:bg-slate-100 p-4 text-left focus-visible:ring-1 sm:text-center" type="button">
                   This is just a normal button
                 </button>
-                <a href="#" class="hocus:bg-slate-100 block p-4 text-left focus-visible:ring-1 sm:text-center"  x-menu-toggle="close">Links</a>
+                <a
+                  href="#"
+                  class="hocus:bg-slate-100 block p-4 text-left focus-visible:ring-1 sm:text-center"
+                  x-menu-toggle="close"
+                  >Links</a
+                >
               </div>
             </x-menu-content-focus-trap>
           </div>

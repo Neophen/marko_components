@@ -7,20 +7,37 @@
     <title>Auth Menu</title>
   </head>
   <body>
-    <div class="flex justify-end">
+    <div class="grid h-screen place-items-center bg-teal-100">
       <x-menu class="relative isolate z-20">
-        <x-menu-trigger class="shrink-0 grow-0">
+        <x-menu-trigger class="group shrink-0 grow-0">
           <div class="hidden sm:block">
-            <button type="button" x-menu-toggle class="flex gap-4 rounded border p-2">
-              <div class="h-8 w-8"></div>
-              <div class="box-content grid h-8 w-8 place-items-center rounded-full border bg-slate-500 text-white">
+            <button
+              type="button"
+              x-menu-toggle
+              class="item-center hocus:bg-slate-100 flex rounded border bg-white p-2 shadow group-open:bg-slate-100"
+            >
+              <div class="flex items-center justify-center p-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6 transition-transform group-open:rotate-180"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+              </div>
+              <div
+                class="box-content flex aspect-square items-center rounded-full bg-slate-500 p-2 text-center text-xs text-white"
+              >
                 MM
               </div>
             </button>
           </div>
-          <div class="rounded border p-2 sm:hidden">
-            <button type="button" x-menu-toggle="open">Menu</button>
-          </div>
+          <button class="hocus:bg-slate-100 rounded border bg-white p-2 shadow sm:hidden" type="button" x-menu-toggle>
+            Sidebar
+          </button>
         </x-menu-trigger>
         <x-menu-overlay
           id="overlay"
@@ -39,16 +56,35 @@
           show="translate-x-0 sm:opacity-100"
         >
           <div class="shadow-1 flex h-full flex-col border bg-white sm:h-auto">
-            <div class="flex justify-end sm:hidden">
-              <button type="button" x-menu-toggle="close">Close</button>
+            <div class="m-2 flex justify-end sm:hidden">
+              <button class="hocus:bg-slate-100 rounded-full border p-2" type="button" x-menu-toggle="close">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+
+                <span class="sr-only">Close</span>
+              </button>
             </div>
             <x-menu-content-focus-trap>
-              <div class="flex grow flex-col overflow-y-auto sm:py-6">
-                <button type="button">Menu item</button>
-                <button type="button">Menu item</button>
-                <button type="button">Menu item</button>
-                <button type="button">Menu item</button>
-                <button type="button">Menu item</button>
+              <div class="flex grow flex-col text-left sm:py-6">
+                <button
+                  x-menu-toggle="close"
+                  class="hocus:bg-slate-100 p-4 text-left focus-visible:ring-1 sm:text-center"
+                  type="button"
+                >
+                  This item will also close the menu
+                </button>
+                <button class="hocus:bg-slate-100 p-4 text-left focus-visible:ring-1 sm:text-center" type="button">
+                  This is just a normal button
+                </button>
+                <a href="#" class="hocus:bg-slate-100 block p-4 text-left focus-visible:ring-1 sm:text-center"  x-menu-toggle="close">Links</a>
               </div>
             </x-menu-content-focus-trap>
           </div>

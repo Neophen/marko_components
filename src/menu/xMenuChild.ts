@@ -8,7 +8,7 @@ export class XMenuChild extends HTMLElement {
   xMenuObserver!: HasAttributeObserver
 
   connectedCallback() {
-    this.onButtonClick = this.onButtonClick.bind(this)
+    this.onToggle = this.onToggle.bind(this)
     const xMenu = this.closest('x-menu')
     if (!xMenu) {
       const tag = this.tagName.toLocaleLowerCase().replace(/_/g, '-')
@@ -19,9 +19,9 @@ export class XMenuChild extends HTMLElement {
 
     this.xMenuObserver = new HasAttributeObserver(this, this.xMenu, 'open', this.onOpenChange.bind(this))
 
-    this.querySelectorAll<HTMLButtonElement>('button[x-menu-toggle]').forEach((button) => {
+    this.querySelectorAll<HTMLButtonElement>('button[x-menu-toggle], a[x-menu-toggle]').forEach((button) => {
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      button.addEventListener('click', this.onButtonClick)
+      button.addEventListener('click', this.onToggle)
     })
   }
 
@@ -29,7 +29,7 @@ export class XMenuChild extends HTMLElement {
     this.xMenuObserver.disconnect()
     this.querySelectorAll<HTMLButtonElement>('button[x-menu-toggle]').forEach((button) => {
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      button.removeEventListener('click', this.onButtonClick)
+      button.removeEventListener('click', this.onToggle)
     })
   }
 
@@ -37,7 +37,7 @@ export class XMenuChild extends HTMLElement {
     this.toggleAttribute('open', open)
   }
 
-  onButtonClick(event: MouseEvent) {
+  onToggle(event: MouseEvent) {
     this.dispatchEvent(this.xMenu.createEvent({ target: event.target as HTMLButtonElement }))
   }
 }

@@ -6,6 +6,12 @@ export class XMenuFocusTrap extends XMenuChild {
   previousActiveElement: HTMLElement | null = null
   tries = 0
 
+  constructor() {
+    super()
+    this.maybeCloseMenu = this.maybeCloseMenu.bind(this)
+    this.maybeTrapFocus = this.maybeTrapFocus.bind(this)
+  }
+
   onOpenChange(open: boolean): void {
     super.onOpenChange(open)
     if (open) {
@@ -14,16 +20,18 @@ export class XMenuFocusTrap extends XMenuChild {
       this.focusFirstElement()
       // trap focus
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      this.addEventListener('keydown', this.onKeyDown)
+      this.addEventListener('keydown', this.maybeTrapFocus)
+      document.addEventListener('keydown', this.maybeCloseMenu)
     } else {
       // release focus
       this.previousActiveElement?.focus?.()
       // eslint-disable-next-line @typescript-eslint/unbound-method
-      this.removeEventListener('keydown', this.onKeyDown)
+      this.removeEventListener('keydown', this.maybeTrapFocus)
+      document.removeEventListener('keydown', this.maybeCloseMenu)
     }
   }
 
-  onKeyDown(event: KeyboardEvent): void {
+  maybeTrapFocus(event: KeyboardEvent): void {
     const focusableEls = this.getFocusableElements()
     const firstFocusableEl = focusableEls[0] as HTMLElement
     const lastFocusableEl = focusableEls[focusableEls.length - 1] as HTMLElement
@@ -39,7 +47,9 @@ export class XMenuFocusTrap extends XMenuChild {
       lastFocusableEl.focus()
       return
     }
+  }
 
+  maybeCloseMenu(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.dispatchEvent(this.xMenu.createEvent({ action: 'close' }))
     }

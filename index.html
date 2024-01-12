@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/vite.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Auth Menu</title>
+	</head>
+	<body>
+    <div class="flex justify-end">
+		<x-menu class="relative isolate z-20">
+			<x-menu-trigger class="shrink-0 grow-0">
+				<div class="hidden sm:block">
+					<button
+						type="button"
+						x-menu-toggle
+						class="border rounded p-2 flex gap-4"
+					>
+						<div class="h-8 w-8"></div>
+						<div
+							class="bg-slate-500 text-white box-content h-8 w-8 rounded-full border grid place-items-center"
+						>
+							MM
+						</div>
+					</button>
+				</div>
+				<div class="sm:hidden border rounded p-2">
+					<button type="button" x-menu-toggle="open">Menu</button>
+				</div>
+			</x-menu-trigger>
+			<x-menu-overlay
+				id="overlay"
+				with="transition-opacity ease-out duration-300"
+				hide="opacity-0"
+				show="opacity-100"
+			>
+				<div class="fixed inset-0 bg-black/80 sm:hidden"></div>
+			</x-menu-overlay>
+			<x-menu-content
+				id="menu"
+				class="fixed  inset-0 z-10 ml-28 sm:top-[calc(100%+8px)] sm:max-h-[560px] sm:absolute sm:inset-auto sm:right-0 sm:ml-0 sm:w-80"
+				x-click-outside="close"
+				with="transition-all duration-300 ease-in"
+				hide="translate-x-full sm:translate-x-0 opacity-0"
+				show="translate-x-0 sm:opacity-100"
+			>
+				<div class="shadow-1 bg-white flex h-full flex-col border sm:h-auto">
+					<div class="flex justify-end sm:hidden">
+						<button type="button" x-menu-toggle="close">Close</button>
+					</div>
+					<x-menu-content-focus-trap>
+						<div class="flex grow flex-col overflow-y-auto sm:py-6">
+							<button type="button">Menu item</button>
+							<button type="button">Menu item</button>
+							<button type="button">Menu item</button>
+							<button type="button">Menu item</button>
+							<button type="button">Menu item</button>
+						</div>
+					</x-menu-content-focus-trap>
+				</div>
+			</x-menu-content>
+		</x-menu>
+  </div>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
+</html>

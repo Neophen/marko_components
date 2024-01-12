@@ -4,9 +4,7 @@ A simple web component for creating menus
 
 ![image](https://github.com/Neophen/x_menu/assets/6092928/15cf5f58-26f4-4f55-bfbb-fa78694f42b2)
 
-
 ![image](https://github.com/Neophen/x_menu/assets/6092928/3be00524-67f3-40e0-a948-f7dcdceb247e)
-
 
 Use at your own risk
 
@@ -14,43 +12,52 @@ Note that the design is responsive, also try keyboard navigation
 
 Here's a demo [**Demo**](https://menu.themykolas.com/)
 
+- All `<x-menu*>` components will receive the `open` attribute when the menu is open
+  - You can style based on this state `<x-menu class="open:bg-red-500">`
+- `x-menu-toggle` attribute can be set to one of `open|close|toggle` default is `toggle`
+  - This attribute has to be on a `<button>` or `<a>` tags
+- `<x-menu-content>` will close the menu on click outside of its contents
+- `<x-menu-overlay>` and `<x-menu-content>` can be animated by using attributes
+  - | Transition | Attribute name         |
+    | ---------- | ---------------------- |
+    | enter      | 'enter' or 'with'      |
+    | enterFrom  | 'enter-from' or 'hide' |
+    | enterTo    | 'enter-to' or 'show'   |
+    | leave      | 'leave' or 'with'      |
+    | leaveFrom  | 'leave-from' or 'show' |
+    | leaveTo    | 'leave-to' or 'hide'   |
+- `<x-menu-content-focus-trap>` will trap focus within this element when it's open
+  - Will restore focus to previously active element on close
+  - on `ESC` key will close the menu
+
 ```html
 <x-menu class="relative isolate z-20">
   <x-menu-trigger class="shrink-0 grow-0">
-    <div class="hidden sm:block">
-      <button type="button" x-menu-toggle class="flex gap-4 rounded border p-2">
-        <div class="h-8 w-8"></div>
-        <div class="box-content grid h-8 w-8 place-items-center rounded-full border bg-slate-500 text-white">MM</div>
-      </button>
-    </div>
-    <div class="rounded border p-2 sm:hidden">
-      <button type="button" x-menu-toggle="open">Menu</button>
-    </div>
+    <button class="hidden sm:block" x-menu-toggle>Menu</button>
+    <button class="sm:hidden" x-menu-toggle="open">Sidebar</button>
   </x-menu-trigger>
-  <x-menu-overlay with="transition-opacity duration-300 ease-out" hide="opacity-0" show="opacity-100">
+  <x-menu-overlay
+    style="display: none"
+    with="transition-opacity duration-300 ease-out"
+    hide="opacity-0"
+    show="opacity-100"
+  >
     <div class="fixed inset-0 bg-black/80 sm:hidden"></div>
   </x-menu-overlay>
   <x-menu-content
-    class="fixed  inset-0 z-10 ml-28 sm:absolute sm:inset-auto sm:right-0 sm:top-[calc(100%+8px)] sm:ml-0 sm:max-h-[560px] sm:w-80"
     x-click-outside="close"
     with="transition-all duration-300 ease-in"
     hide="translate-x-full opacity-0 sm:translate-x-0"
     show="translate-x-0 sm:opacity-100"
   >
-    <div class="shadow-1 flex h-full flex-col border bg-white sm:h-auto">
-      <div class="flex justify-end sm:hidden">
-        <button type="button" x-menu-toggle="close">Close</button>
-      </div>
-      <x-menu-content-focus-trap>
-        <div class="flex grow flex-col overflow-y-auto sm:py-6">
-          <button type="button">Menu item</button>
-          <button type="button">Menu item</button>
-          <button type="button">Menu item</button>
-          <button type="button">Menu item</button>
-          <button type="button">Menu item</button>
-        </div>
-      </x-menu-content-focus-trap>
-    </div>
+    <button type="button" x-menu-toggle="close">Close</button>
+    <x-menu-content-focus-trap>
+      <button>Menu item</button>
+      <button>Menu item</button>
+      <button>Menu item</button>
+      <button>Menu item</button>
+      <button>Menu item</button>
+    </x-menu-content-focus-trap>
   </x-menu-content>
 </x-menu>
 ```

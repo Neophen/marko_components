@@ -1,6 +1,13 @@
 # x-menu
 
 A simple web component for creating menus
+
+![image](https://github.com/Neophen/x_menu/assets/6092928/15cf5f58-26f4-4f55-bfbb-fa78694f42b2)
+
+
+![image](https://github.com/Neophen/x_menu/assets/6092928/3be00524-67f3-40e0-a948-f7dcdceb247e)
+
+
 Use at your own risk
 
 Note that the design is responsive, also try keyboard navigation

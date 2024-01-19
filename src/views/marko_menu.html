@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/the_mykolas.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X Menu</title>
+  </head>
+  <body>
+    <div class="flex h-screen items-center justify-center bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
+      <div class="fixed left-2 top-4">
+        <a href="/" class="rounded border bg-white p-2">Home</a>
+      </div>
+      <div class="fixed inset-x-0 top-0 z-20 flex justify-center">
+        <p class="w-1/2 bg-blue-500 p-4 text-white">Hello there</p>
+      </div>
+      <marko-menu>
+        <marko-menu-trigger class="group shrink-0 grow-0">
+          <button
+            id="trigger"
+            type="button"
+            marko-menu-toggle
+            class="item-center flex rounded border bg-white p-2 shadow group-open:bg-slate-100 hocus:bg-slate-100"
+          >
+            <div class="flex items-center justify-center p-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="h-6 w-6 transition-transform group-open:rotate-180"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+              </svg>
+            </div>
+            <div
+              class="box-content flex aspect-square items-center rounded-full bg-slate-500 p-2 text-center text-xs text-white"
+            >
+              MM
+            </div>
+          </button>
+        </marko-menu-trigger>
+        <marko-menu-content
+          id="menu"
+          anchor="trigger"
+          placement="bottom"
+          offset="6"
+          padding="5"
+          class="shadow-1 absolute m-0 flex -translate-x-1/2 flex-col border bg-white backdrop:hidden"
+          x-click-outside="close"
+          with="transition-opacity duration-200 ease-in"
+          hide="opacity-0"
+          show="opacity-100"
+        >
+          <button
+            autofocus
+            marko-menu-toggle="close"
+            class="p-4 text-left focus-visible:ring-1 hocus:bg-slate-100 sm:text-center"
+            type="button"
+          >
+            This item will also close the menu
+          </button>
+          <button class="p-4 text-left focus-visible:ring-1 hocus:bg-slate-100 sm:text-center" type="button">
+            This is just a normal button
+          </button>
+          <a
+            href="#"
+            class="block p-4 text-left focus-visible:ring-1 hocus:bg-slate-100 sm:text-center"
+            marko-menu-toggle="close"
+            >Links</a
+          >
+        </marko-menu-content>
+      </marko-menu>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

@@ -1,9 +1,17 @@
-// eslint-disable-next-line no-use-before-define
-type TransitionEvent = CustomEvent<{ target: Transition }>
-
 const TRANSITION_ADD = 'marko-transition-add'
 const TRANSITION_DELETE = 'marko-transition-delete'
 const TRANSITION_END = 'marko-transition-end'
+
+// eslint-disable-next-line no-use-before-define
+type TransitionEvent = CustomEvent<{ target: Transition }>
+
+declare global {
+  interface HTMLElementEventMap {
+    [TRANSITION_ADD]: TransitionEvent
+    [TRANSITION_DELETE]: TransitionEvent
+    [TRANSITION_END]: TransitionEvent
+  }
+}
 
 const makeAbortablePromise = (controller: AbortController) => (promise: Promise<void>) =>
   Promise.race([promise, new Promise<void>((resolve) => (controller.signal.onabort = () => resolve()))])
@@ -21,9 +29,6 @@ export class Transition {
   private leaveAbort?: AbortController
 
   constructor(el: HTMLElement) {
-    this.addChild = this.addChild.bind(this)
-    this.removeChild = this.removeChild.bind(this)
-
     this.el = el
     const attr = (name: string, fallback: string) =>
       (this.el.getAttribute(name) ?? this.el.getAttribute(fallback) ?? '').split(' ').filter(Boolean)
@@ -37,10 +42,10 @@ export class Transition {
 
     // count children using events
     this.childrenCount = 0
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.el.addEventListener(TRANSITION_ADD, this.addChild as EventListener)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.el.addEventListener(TRANSITION_DELETE, this.removeChild as EventListener)
+
+    this.el.addEventListener(TRANSITION_ADD, this.addChild)
+
+    this.el.addEventListener(TRANSITION_DELETE, this.removeChild)
 
     this.dispatchEvent(TRANSITION_ADD)
 
@@ -60,29 +65,29 @@ export class Transition {
 
   disconnectedCallback() {
     this.dispatchEvent(TRANSITION_DELETE)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.el.removeEventListener(TRANSITION_ADD, this.addChild as EventListener)
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    this.el.removeEventListener(TRANSITION_DELETE, this.removeChild as EventListener)
+
+    this.el.removeEventListener(TRANSITION_ADD, this.addChild)
+
+    this.el.removeEventListener(TRANSITION_DELETE, this.removeChild)
   }
 
-  sameGroup(e: TransitionEvent) {
+  sameGroup(e: TransitionEvent): boolean {
     return this.key === e.detail.target.key
   }
 
-  addChild(e: TransitionEvent) {
+  addChild = (e: TransitionEvent): void => {
     if (this.sameGroup(e)) {
       this.childrenCount++
     }
   }
 
-  removeChild(e: TransitionEvent) {
+  removeChild = (e: TransitionEvent): void => {
     if (this.sameGroup(e)) {
       this.childrenCount--
     }
   }
 
-  async init() {
+  async init(): Promise<void> {
     await this.nextFrame()
 
     if (this.open) {
@@ -101,14 +106,34 @@ export class Transition {
   }
 
   set open(val) {
+    const dialog = this.el instanceof HTMLDialogElement ? this.el : undefined
     if (val) {
-      this.el.setAttribute('open', '')
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      this.onEnter()
+      if (dialog) {
+        dialog.showModal()
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              this.onEnter()
+                .then(() => {})
+                .catch(() => {})
+            })
+          })
+        })
+      } else {
+        this.el.setAttribute('open', '')
+        this.onEnter()
+          .then(() => {})
+          .catch(() => {})
+      }
     } else {
-      this.el.removeAttribute('open')
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      if (!dialog) {
+        this.el.removeAttribute('open')
+      }
+
       this.onLeave()
+        .then(() => dialog && dialog.close())
+        .catch(() => {})
     }
   }
 
@@ -215,13 +240,13 @@ export class Transition {
       const handler = (e: TransitionEvent) => {
         if (this.sameGroup(e)) {
           if (--count === 0) {
-            this.el.removeEventListener(TRANSITION_END, handler as EventListener)
+            this.el.removeEventListener(TRANSITION_END, handler)
             resolve()
           }
         }
       }
 
-      this.el.addEventListener(TRANSITION_END, handler as EventListener, {
+      this.el.addEventListener(TRANSITION_END, handler, {
         signal: abortController.signal,
       })
     })

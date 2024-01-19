@@ -1,37 +1,27 @@
-import { XMenuChild } from './xMenuChild'
+import { MarkoMenuChild } from './markoMenuChild'
 
 const MAX_TRIES = 10
 
-export class XMenuFocusTrap extends XMenuChild {
+export class MarkoMenuFocusTrap extends MarkoMenuChild {
   previousActiveElement: HTMLElement | null = null
   tries = 0
-
-  constructor() {
-    super()
-    this.maybeCloseMenu = this.maybeCloseMenu.bind(this)
-    this.maybeTrapFocus = this.maybeTrapFocus.bind(this)
-  }
 
   onOpenChange(open: boolean): void {
     super.onOpenChange(open)
     if (open) {
-      // capture current focus
       this.previousActiveElement = document.activeElement as HTMLElement
       this.focusFirstElement()
-      // trap focus
-      // eslint-disable-next-line @typescript-eslint/unbound-method
+
       this.addEventListener('keydown', this.maybeTrapFocus)
       document.addEventListener('keydown', this.maybeCloseMenu)
     } else {
-      // release focus
       this.previousActiveElement?.focus?.()
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       this.removeEventListener('keydown', this.maybeTrapFocus)
       document.removeEventListener('keydown', this.maybeCloseMenu)
     }
   }
 
-  maybeTrapFocus(event: KeyboardEvent): void {
+  maybeTrapFocus = (event: KeyboardEvent): void => {
     const focusableEls = this.getFocusableElements()
     const firstFocusableEl = focusableEls[0] as HTMLElement
     const lastFocusableEl = focusableEls[focusableEls.length - 1] as HTMLElement
@@ -45,17 +35,16 @@ export class XMenuFocusTrap extends XMenuChild {
     if (document.activeElement === firstFocusableEl && event.key === 'Tab' && event.shiftKey) {
       event.preventDefault()
       lastFocusableEl.focus()
-      return
     }
   }
 
-  maybeCloseMenu(event: KeyboardEvent) {
+  maybeCloseMenu = (event: KeyboardEvent): void => {
     if (event.key === 'Escape') {
-      this.dispatchEvent(this.xMenu.createEvent({ action: 'close' }))
+      this.dispatchEvent(this.markoMenu.createEvent({ action: 'close' }))
     }
   }
 
-  focusFirstElement(): void {
+  focusFirstElement = (): void => {
     const firstElement = this.getFocusableElements()[0]
     if (firstElement instanceof HTMLElement) {
       this.tries = 0
@@ -71,10 +60,10 @@ export class XMenuFocusTrap extends XMenuChild {
       return
     }
 
-    console.warn('No focusable elements found in <x-menu-content-focus-trap>.')
+    console.warn('No focusable elements found in <marko-menu-content-focus-trap>.')
   }
 
-  getFocusableElements() {
+  getFocusableElements = () => {
     return this.querySelectorAll(
       'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
     )

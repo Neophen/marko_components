@@ -1,2 +1,2 @@
 import './style.css'
-import './menu'
+import './marko_menu'

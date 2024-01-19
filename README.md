@@ -1,4 +1,4 @@
-# x-menu
+# marko-menu
 
 A simple web component for creating menus
 
@@ -12,12 +12,12 @@ Note that the design is responsive, also try keyboard navigation
 
 Here's a demo [**Demo**](https://menu.themykolas.com/)
 
-- All `<x-menu*>` components will receive the `open` attribute when the menu is open
-  - You can style based on this state `<x-menu class="open:bg-red-500">`
-- `x-menu-toggle` attribute can be set to one of `open|close|toggle` default is `toggle`
+- All `<marko-menu*>` components will receive the `open` attribute when the menu is open
+  - You can style based on this state `<marko-menu class="open:bg-red-500">`
+- `marko-menu-toggle` attribute can be set to one of `open|close|toggle` default is `toggle`
   - This attribute has to be on a `<button>` or `<a>` tags
-- `<x-menu-content>` will close the menu on click outside of its contents
-- `<x-menu-overlay>` and `<x-menu-content>` can be animated by using attributes
+- `<marko-menu-content>` wraps contents within a dialog element, all the attributes will be transfered to the dialog element
+- `<marko-menu-overlay>` and `<marko-menu-content>` can be animated by using attributes
   - | Transition | Attribute name         |
     | ---------- | ---------------------- |
     | enter      | 'enter' or 'with'      |
@@ -26,38 +26,38 @@ Here's a demo [**Demo**](https://menu.themykolas.com/)
     | leave      | 'leave' or 'with'      |
     | leaveFrom  | 'leave-from' or 'show' |
     | leaveTo    | 'leave-to' or 'hide'   |
-- `<x-menu-content-focus-trap>` will trap focus within this element when it's open
+- `<marko-menu-content-focus-trap>` will trap focus within this element when it's open
   - Will restore focus to previously active element on close
   - on `ESC` key will close the menu
 
 ```html
-<x-menu class="relative isolate z-20">
-  <x-menu-trigger class="shrink-0 grow-0">
-    <button class="hidden sm:block" x-menu-toggle>Menu</button>
-    <button class="sm:hidden" x-menu-toggle="open">Sidebar</button>
-  </x-menu-trigger>
-  <x-menu-overlay
+<marko-menu class="relative isolate z-20">
+  <marko-menu-trigger class="shrink-0 grow-0">
+    <button class="hidden sm:block" marko-menu-toggle>Menu</button>
+    <button class="sm:hidden" marko-menu-toggle="open">Sidebar</button>
+  </marko-menu-trigger>
+  <marko-menu-overlay
     style="display: none"
     with="transition-opacity duration-300 ease-out"
     hide="opacity-0"
     show="opacity-100"
   >
     <div class="fixed inset-0 bg-black/80 sm:hidden"></div>
-  </x-menu-overlay>
-  <x-menu-content
+  </marko-menu-overlay>
+  <marko-menu-content
     x-click-outside="close"
     with="transition-all duration-300 ease-in"
     hide="translate-x-full opacity-0 sm:translate-x-0"
     show="translate-x-0 sm:opacity-100"
   >
-    <button type="button" x-menu-toggle="close">Close</button>
-    <x-menu-content-focus-trap>
+    <button type="button" marko-menu-toggle="close">Close</button>
+    <marko-menu-content-focus-trap>
       <button>Menu item</button>
       <button>Menu item</button>
       <button>Menu item</button>
       <button>Menu item</button>
       <button>Menu item</button>
-    </x-menu-content-focus-trap>
-  </x-menu-content>
-</x-menu>
+    </marko-menu-content-focus-trap>
+  </marko-menu-content>
+</marko-menu>
 ```

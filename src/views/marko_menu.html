@@ -7,14 +7,14 @@
     <title>X Menu</title>
   </head>
   <body>
-    <div class="flex h-screen items-center justify-center bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
+    <mouse-click-track class="block h-screen bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
       <div class="fixed left-2 top-4">
         <a href="/" class="rounded border bg-white p-2">Home</a>
       </div>
       <div class="fixed inset-x-0 top-0 z-20 flex justify-center">
         <p class="w-1/2 bg-blue-500 p-4 text-white">Hello there</p>
       </div>
-      <marko-menu>
+      <marko-menu class="absolute left-[--mouse-x] top-[--mouse-y]">
         <marko-menu-trigger class="group shrink-0 grow-0">
           <button
             id="trigger"
@@ -44,10 +44,10 @@
         <marko-menu-content
           id="menu"
           anchor="trigger"
-          placement="bottom"
+          placement="bottom-start"
           offset="6"
           padding="5"
-          class="shadow-1 absolute m-0 flex -translate-x-1/2 flex-col border bg-white backdrop:hidden"
+          class="shadow-1 absolute m-0 flex flex-col border bg-white backdrop:hidden"
           x-click-outside="close"
           with="transition-opacity duration-200 ease-in"
           hide="opacity-0"
@@ -72,7 +72,7 @@
           >
         </marko-menu-content>
       </marko-menu>
-    </div>
+    </mouse-click-track>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

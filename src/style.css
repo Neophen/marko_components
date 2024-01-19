@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+mouse-click-track {
+  --mouse-x: 200px;
+  --mouse-y: 200px;
+}

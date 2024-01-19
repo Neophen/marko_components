@@ -79,7 +79,6 @@ export class MarkoMenuContent extends MarkoMenuChild {
     computePosition(anchor, this.dialog, {
       placement: this.placement,
       middleware: [offset(this.offset), flip(), shift({ padding: this.padding })],
-      strategy: 'fixed',
     }).then(({ x, y }) => {
       Object.assign(this.dialog.style, {
         left: `${x}px`,

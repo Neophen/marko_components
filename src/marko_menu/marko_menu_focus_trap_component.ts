@@ -1,8 +1,8 @@
-import { MarkoMenuChild } from './markoMenuChild'
+import { CeMenuChildComponent } from './marko_menu_child_component'
 
 const MAX_TRIES = 10
 
-export class MarkoMenuFocusTrap extends MarkoMenuChild {
+export class CeMenuFocusTrapComponent extends CeMenuChildComponent {
   previousActiveElement: HTMLElement | null = null
   tries = 0
 
@@ -40,7 +40,7 @@ export class MarkoMenuFocusTrap extends MarkoMenuChild {
 
   maybeCloseMenu = (event: KeyboardEvent): void => {
     if (event.key === 'Escape') {
-      this.dispatchEvent(this.markoMenu.createEvent({ action: 'close' }))
+      this.dispatchEvent(this.menu.createEvent({ action: 'close' }))
     }
   }
 

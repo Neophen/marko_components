@@ -1,8 +1,8 @@
-export type MarkoMenuToggleAction = 'open' | 'close' | 'toggle'
+export type CeMenuComponentToggleAction = 'open' | 'close' | 'toggle'
 
-export type MarkoMenuToggleActionProps = {
+export type CeMenuComponentToggleActionProps = {
   target?: HTMLButtonElement
-  action?: MarkoMenuToggleAction
+  action?: CeMenuComponentToggleAction
 }
 
-export type MarkoMenuToggleActionEvent = CustomEvent<MarkoMenuToggleActionProps>
+export type CeMenuComponentToggleActionEvent = CustomEvent<CeMenuComponentToggleActionProps>

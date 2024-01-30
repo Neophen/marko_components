@@ -1,13 +1,13 @@
-import { MarkoMenu } from './markoMenu'
-import { MarkoMenuTransitionChild, MarkoMenuChild } from './markoMenuChild'
-import { MarkoMenuContent } from './markoMenuContent'
-import { MarkoMenuFocusTrap } from './markoMenuFocusTrap'
+import { CeMenuComponent } from './marko_menu_component'
+import { CeMenuTransitionChildComponent, CeMenuChildComponent } from './marko_menu_child_component'
+import { CeMenuContentComponent } from './marko_menu_content_component'
+import { CeMenuFocusTrapComponent } from './marko_menu_focus_trap_component'
 
-class MarkoMenuTrigger extends MarkoMenuChild {}
-class MarkoMenuOverlay extends MarkoMenuTransitionChild {}
+class CeMenuTriggerComponent extends CeMenuChildComponent {}
+class CeMenuOverlayComponent extends CeMenuTransitionChildComponent {}
 
-customElements.define('marko-menu', MarkoMenu)
-customElements.define('marko-menu-trigger', MarkoMenuTrigger)
-customElements.define('marko-menu-overlay', MarkoMenuOverlay)
-customElements.define('marko-menu-content', MarkoMenuContent)
-customElements.define('marko-menu-content-focus-trap', MarkoMenuFocusTrap)
+CeMenuComponent.define()
+CeMenuTriggerComponent.define()
+CeMenuOverlayComponent.define()
+CeMenuContentComponent.define()
+CeMenuFocusTrapComponent.define()

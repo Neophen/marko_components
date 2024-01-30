@@ -7,19 +7,19 @@
     <title>X Menu</title>
   </head>
   <body>
-    <mouse-click-track class="block h-screen bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
+    <ce-track-mouse class="block h-screen bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500">
       <div class="fixed left-2 top-4">
         <a href="/" class="rounded border bg-white p-2">Home</a>
       </div>
       <div class="fixed inset-x-0 top-0 z-20 flex justify-center">
         <p class="w-1/2 bg-blue-500 p-4 text-white">Hello there</p>
       </div>
-      <marko-menu class="absolute left-[--mouse-x] top-[--mouse-y]">
-        <marko-menu-trigger class="group shrink-0 grow-0">
+      <ce-menu class="absolute left-[--mouse-x] top-[--mouse-y]">
+        <ce-menu-trigger class="group shrink-0 grow-0">
           <button
             id="trigger"
             type="button"
-            marko-menu-toggle
+            ce-menu-toggle
             class="item-center flex rounded border bg-white p-2 shadow group-open:bg-slate-100 hocus:bg-slate-100"
           >
             <div class="flex items-center justify-center p-2">
@@ -40,11 +40,11 @@
               MM
             </div>
           </button>
-        </marko-menu-trigger>
-        <marko-menu-content
+        </ce-menu-trigger>
+        <ce-menu-content
           id="menu"
           anchor="trigger"
-          placement="bottom-start"
+          placement="bottom-end"
           offset="6"
           padding="5"
           class="shadow-1 absolute m-0 flex flex-col border bg-white backdrop:hidden"
@@ -55,7 +55,7 @@
         >
           <button
             autofocus
-            marko-menu-toggle="close"
+            ce-menu-toggle="close"
             class="p-4 text-left focus-visible:ring-1 hocus:bg-slate-100 sm:text-center"
             type="button"
           >
@@ -67,12 +67,12 @@
           <a
             href="#"
             class="block p-4 text-left focus-visible:ring-1 hocus:bg-slate-100 sm:text-center"
-            marko-menu-toggle="close"
+            ce-menu-toggle="close"
             >Links</a
           >
-        </marko-menu-content>
-      </marko-menu>
-    </mouse-click-track>
+        </ce-menu-content>
+      </ce-menu>
+    </ce-track-mouse>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

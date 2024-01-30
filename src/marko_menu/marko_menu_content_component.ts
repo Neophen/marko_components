@@ -1,46 +1,53 @@
-import { MarkoMenuChild } from './markoMenuChild'
-import { MarkoMenu } from './markoMenu'
+import { CeMenuChildComponent } from './marko_menu_child_component'
+import { CeMenuComponent } from './marko_menu_component'
 import { Transition } from './transition'
 import { Placement, computePosition, flip, shift, offset } from '@floating-ui/dom'
+import type { ObservedAttribute } from '../base/types'
 
-export class MarkoMenuContent extends MarkoMenuChild {
+export class CeMenuContentComponent extends CeMenuChildComponent {
   initClickEvents = false
   transition!: Transition
   dialog!: HTMLDialogElement
   template = `<dialog></dialog>`
   placement: Placement = 'bottom'
   anchor?: string
-  isConnected: boolean = false
   offset = 0
   padding = 0
 
-  static get observedAttributes() {
-    return ['placement', 'anchor', 'offset', 'padding']
-  }
+  onConnected(): void {
 
-  attributeChangedCallback(name: string, _oldValue: string, newValue: string): void {
-    switch (name) {
-      case 'placement':
-        this.placement = newValue as Placement
-        break
-      case 'anchor':
-        this.anchor = newValue
-        this.maybeAnchorDialog()
-        break
-      case 'offset':
-        this.offset = parseInt(newValue)
-        break
-      case 'padding':
-        this.padding = parseInt(newValue)
-        break
-    }
-  }
-
-  connectedCallback(): void {
-    super.connectedCallback()
+    super.onConnected()
+    console.log(CeMenuContentComponent.observedAttributes)
     this.anchor = this.getAttribute('anchor') ?? undefined
     this.populate()
-    this.isConnected = true
+  }
+
+  onDisconnected(): void {
+    super.onDisconnected()
+    this.transition.disconnectedCallback()
+    document.removeEventListener('click', this.onDocumentClick)
+    this.dialog.removeEventListener('close', this.onDialogClose)
+  }
+
+  placementObserver({ newValue }: ObservedAttribute): void {
+    console.log('placementObserver', newValue)
+    this.placement = newValue as Placement
+  }
+
+  anchorObserver({ newValue }: ObservedAttribute): void {
+    console.log('anchorObserver', newValue)
+    this.anchor = newValue
+    this.maybeAnchorDialog()
+  }
+
+  offsetObserver({ newValue }: ObservedAttribute): void {
+    console.log('offsetObserver', newValue)
+    this.offset = parseInt(newValue)
+  }
+
+  paddingObserver({ newValue }: ObservedAttribute): void {
+    console.log('paddingObserver', newValue)
+    this.padding = parseInt(newValue)
   }
 
   onOpenChange(open: boolean) {
@@ -56,13 +63,6 @@ export class MarkoMenuContent extends MarkoMenuChild {
       this.removeClickEvents()
       document.removeEventListener('click', this.onDocumentClick)
     }
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback()
-    this.transition.disconnectedCallback()
-    document.removeEventListener('click', this.onDocumentClick)
-    this.dialog.removeEventListener('close', this.onDialogClose)
   }
 
   maybeAnchorDialog(): void {
@@ -95,7 +95,7 @@ export class MarkoMenuContent extends MarkoMenuChild {
     this.dialog.innerHTML = this.innerHTML
 
     Array.from(this.attributes).forEach((attribute) => {
-      if (MarkoMenuContent.observedAttributes.includes(attribute.name)) {
+      if (CeMenuContentComponent.observedAttributes.includes(attribute.name)) {
         return
       }
       this.dialog.setAttribute(attribute.name, attribute.value)
@@ -114,15 +114,15 @@ export class MarkoMenuContent extends MarkoMenuChild {
     }
 
     this.dispatchEvent(
-      this.markoMenu.createEvent({
-        action: MarkoMenu.getActionAttribute(target, 'x-click-outside') ?? 'close',
+      this.menu.createEvent({
+        action: CeMenuComponent.getActionAttribute(target, 'x-click-outside') ?? 'close',
       }),
     )
   }
 
   onDialogClose = (): void => {
     this.dispatchEvent(
-      this.markoMenu.createEvent({
+      this.menu.createEvent({
         action: 'close',
       }),
     )

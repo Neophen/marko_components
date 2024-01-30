@@ -1,13 +1,13 @@
 import './style.css'
 import './marko_menu'
+import { BaseCustomElement } from './base/base_custom_element'
 
-
-export class MouseClickTrack extends HTMLElement {
-  connectedCallback() {
+export class CeTrackMouse extends BaseCustomElement {
+  onConnected() {
     this.addEventListener('click', this.onDocumentClick)
   }
 
-  disconnectedCallback() {
+  onDisconnected() {
     this.removeEventListener('click', this.onDocumentClick)
   }
 
@@ -23,5 +23,4 @@ export class MouseClickTrack extends HTMLElement {
   }
 }
 
-
-customElements.define('mouse-click-track', MouseClickTrack)
+CeTrackMouse.define()

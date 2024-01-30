@@ -1,5 +1,5 @@
-import { CeMenuChildComponent } from './marko_menu_child_component'
-import { CeMenuComponent } from './marko_menu_component'
+import { CeMenuChildComponent } from './ce_menu_child_component'
+import { CeMenuComponent } from './ce_menu_component'
 import { Transition } from './transition'
 import { Placement, computePosition, flip, shift, offset } from '@floating-ui/dom'
 import type { ObservedAttribute } from '../base/types'
@@ -15,9 +15,7 @@ export class CeMenuContentComponent extends CeMenuChildComponent {
   padding = 0
 
   onConnected(): void {
-
     super.onConnected()
-    console.log(CeMenuContentComponent.observedAttributes)
     this.anchor = this.getAttribute('anchor') ?? undefined
     this.populate()
   }
@@ -30,23 +28,19 @@ export class CeMenuContentComponent extends CeMenuChildComponent {
   }
 
   placementObserver({ newValue }: ObservedAttribute): void {
-    console.log('placementObserver', newValue)
     this.placement = newValue as Placement
   }
 
   anchorObserver({ newValue }: ObservedAttribute): void {
-    console.log('anchorObserver', newValue)
     this.anchor = newValue
     this.maybeAnchorDialog()
   }
 
   offsetObserver({ newValue }: ObservedAttribute): void {
-    console.log('offsetObserver', newValue)
     this.offset = parseInt(newValue)
   }
 
   paddingObserver({ newValue }: ObservedAttribute): void {
-    console.log('paddingObserver', newValue)
     this.padding = parseInt(newValue)
   }
 

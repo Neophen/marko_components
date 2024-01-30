@@ -1,7 +1,7 @@
 import { Transition } from './transition'
 import { HasAttributeObserver } from './has_attribute_observer'
 
-import { CeMenuComponent } from './marko_menu_component'
+import { CeMenuComponent } from './ce_menu_component'
 import { BaseCustomElement } from '../base/base_custom_element'
 
 type ClickableElement = HTMLButtonElement | HTMLAnchorElement

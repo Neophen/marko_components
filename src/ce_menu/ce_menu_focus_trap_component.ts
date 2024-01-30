@@ -1,4 +1,4 @@
-import { CeMenuChildComponent } from './marko_menu_child_component'
+import { CeMenuChildComponent } from './ce_menu_child_component'
 
 const MAX_TRIES = 10
 
